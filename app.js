@@ -4,18 +4,18 @@ const editor = $("editor");
 const preview = $("preview");
 const fileInput = $("fileInput");
 
-const DEFAULT_MD = `# Markdown → PDF (локально)
+const DEFAULT_MD = `# Markdown → PDF (local)
 
-Це **офлайн** сторінка: вона НЕ залежить від markdowntopdf.com.
+This is an **offline** page: it does NOT depend on markdowntopdf.com.
 
-## Як користуватись
+## How to use
 
-- Пиши Markdown зліва — превʼю справа оновлюється в реальному часі.
-- **Open .md** — завантажити файл.
-- **Save .md** — зберегти поточний текст.
-- **Download PDF** — згенерувати PDF локально.
+- Write Markdown on the left — the preview on the right updates in real time.
+- **Open .md** — load a file.
+- **Save .md** — save the current text.
+- **Save as PDF** — generate a PDF locally.
 
-> Порада: якщо PDF виходить “важкий” — зменш обсяг великих картинок/таблиць.
+> Tip: if the PDF is too large, reduce big images/tables.
 
 \`\`\`bash
 python3 local_server.py --port 8000
@@ -32,9 +32,9 @@ function escapeHtml(s) {
 }
 
 /**
- * Мінімальний Markdown -> HTML (офлайн, без бібліотек).
- * Підтримка: заголовки #/##/###, **bold**, `inline code`, ```code blocks```,
- * списки -, цитати >, горизонтальна лінія ---, посилання [t](u), параграфи.
+ * Minimal Markdown -> HTML (offline, no libraries).
+ * Supports: headings #/##/###, **bold**, `inline code`, ```code blocks```,
+ * lists -, blockquotes >, horizontal rule ---, links [t](u), paragraphs.
  */
 function renderMarkdown(md) {
   // If available, use full-featured renderer (better tables/lists/edge cases)
@@ -174,7 +174,7 @@ function nowStamp() {
 async function exportPdf() {
   // Пряме скачування PDF файлом (як Save .md) через html2pdf.js
   if (typeof window.html2pdf !== "function") {
-    alert("Не завантажилась бібліотека для PDF. Перевір інтернет або перезавантаж сторінку.");
+    alert("PDF library failed to load. Check your internet connection or reload the page.");
     return;
   }
 

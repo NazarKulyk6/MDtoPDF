@@ -124,7 +124,7 @@ body{
   background:rgba(2,6,23,.10);
 }
 
-/* GitHub-ish markdown styles (мінімально, без важких пакетів) */
+/* GitHub-ish markdown styles (minimal, without heavy packages) */
 .markdown-body{
   color:#e5e7eb;
 }
@@ -176,7 +176,7 @@ body{
 }
 .markdown-body th{background:rgba(148,163,184,.10)}
 
-/* PDF: зробимо білий фон під час експорту */
+/* PDF: use a white background during export */
 .pdf-export{
   color:#111827 !important;
   background:#ffffff !important;

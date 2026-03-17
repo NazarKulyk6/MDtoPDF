@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """
-Локальний HTTP сервер для автономної (офлайн) сторінки Markdown -> PDF.
+Local HTTP server for a standalone (offline) Markdown -> PDF page.
 
-Навіщо це треба:
-- Збережена сторінка www.markdowntopdf.com залежить від їхнього бекенду/авторизації/модулів і локально ламається.
-- Цей сервер віддає локальний `index.html` і статичні файли з поточної папки.
+Why this exists:
+- The saved www.markdowntopdf.com page depends on their backend/auth/modules and often breaks locally.
+- This server serves the local `index.html` and static files from the current folder.
 """
 
 import http.server
@@ -18,32 +18,32 @@ DEFAULT_PORT = 8000
 
 class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def end_headers(self):
-        # Додаємо CORS заголовки для роботи з Playwright
+        # Add CORS headers (useful for Playwright / automation)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type')
         super().end_headers()
     
     def log_message(self, format, *args):
-        # Прибираємо зайві логи
+        # Silence noisy logs
         pass
 
 def start_server(port: int):
-    """Запускає локальний HTTP сервер"""
+    """Start the local HTTP server"""
     os.chdir(Path(__file__).parent)
 
-    # ThreadingTCPServer, щоб браузер/ресурси не блокували один одного
+    # ThreadingTCPServer so the browser/resources don't block each other
     class ThreadingTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
         allow_reuse_address = True
 
     with ThreadingTCPServer(("", port), MyHTTPRequestHandler) as httpd:
-        print(f"🌐 Локальний сервер запущено на http://localhost:{port}/")
-        print(f"📄 Відкрийте в браузері: http://localhost:{port}/ (index.html)")
-        print(f"\n⏸️  Натисніть Ctrl+C для зупинки сервера\n")
+        print(f"🌐 Local server started at http://localhost:{port}/")
+        print(f"📄 Open in your browser: http://localhost:{port}/ (index.html)")
+        print(f"\n⏸️  Press Ctrl+C to stop the server\n")
         try:
             httpd.serve_forever()
         except KeyboardInterrupt:
-            print("\n\n🔒 Сервер зупинено")
+            print("\n\n🔒 Server stopped")
             sys.exit(0)
 
 if __name__ == "__main__":
