@@ -108,6 +108,7 @@ body{
   overflow:hidden;
   display:flex;
   flex-direction:column;
+  position:relative;
 }
 .paneHeader{
   display:flex;
@@ -230,3 +231,164 @@ body{
 .pdf-export th{background:rgba(15,23,42,.06) !important; color:#0f172a !important}
 .pdf-export td{color:#0f172a !important}
 
+/* Drag & drop overlay - full screen */
+.dropOverlay{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  background:rgba(11,16,32,.92);
+  border:none;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:1000;
+  backdrop-filter:blur(12px);
+  opacity:0;
+  transition:opacity 0.3s ease;
+}
+.dropOverlay.active{
+  display:flex;
+  opacity:1;
+  animation:dropPulse 2s ease-in-out infinite;
+}
+body.drop-active .grid,
+body.drop-active .topbar{
+  filter:blur(4px);
+  transition:filter 0.3s ease;
+}
+.dropOverlay.dragOver{
+  background:rgba(11,16,32,.96);
+  animation:dropPulseActive 0.6s ease-in-out infinite;
+}
+.dropContent{
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:12px;
+  animation:dropContentFade 0.3s ease;
+}
+.dropPlus{
+  width:120px;
+  height:120px;
+  border-radius:50%;
+  background:linear-gradient(180deg, rgba(34,197,94,.25), rgba(34,197,94,.15));
+  border:4px solid rgba(34,197,94,.6);
+  display:block;
+  animation:dropPlusBounce 1.5s ease-in-out infinite;
+  box-shadow:0 8px 32px rgba(34,197,94,.2), 0 0 0 8px rgba(34,197,94,.1);
+  position:relative;
+}
+.dropPlus::before,
+.dropPlus::after{
+  content:"";
+  position:absolute;
+  background:var(--accent);
+  border-radius:2px;
+}
+.dropPlus::before{
+  width:4px;
+  height:48px;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+}
+.dropPlus::after{
+  width:48px;
+  height:4px;
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -50%);
+}
+.dropOverlay.dragOver .dropPlus{
+  animation:dropPlusBounceActive 0.5s ease-in-out infinite;
+  border-color:rgba(34,197,94,1);
+  box-shadow:0 8px 32px rgba(34,197,94,.4), 0 0 0 12px rgba(34,197,94,.15);
+}
+.dropMessage{
+  font-size:48px;
+  font-weight:900;
+  color:var(--accent);
+  text-align:center;
+  margin:24px 0 0;
+  letter-spacing:4px;
+  text-shadow:0 4px 16px rgba(34,197,94,.4), 0 0 32px rgba(34,197,94,.2);
+  padding:0;
+  animation:dropMessagePulse 2s ease-in-out infinite;
+}
+.dropOverlay.dragOver .dropMessage{
+  animation:dropMessagePulseActive 0.6s ease-in-out infinite;
+}
+.dropHint{
+  font-size:16px;
+  color:var(--muted);
+  font-weight:600;
+  margin-top:12px;
+  letter-spacing:1px;
+}
+@keyframes dropPulse{
+  0%,100%{
+    border-color:rgba(34,197,94,.5);
+  }
+  50%{
+    border-color:rgba(34,197,94,.7);
+  }
+}
+@keyframes dropPulseActive{
+  0%,100%{
+    border-color:rgba(34,197,94,1);
+    box-shadow:0 0 0 0 rgba(34,197,94,.4);
+  }
+  50%{
+    border-color:rgba(34,197,94,1);
+    box-shadow:0 0 0 8px rgba(34,197,94,0);
+  }
+}
+@keyframes dropContentFade{
+  from{
+    opacity:0;
+    transform:translateY(-10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+@keyframes dropPlusBounce{
+  0%,100%{
+    transform:translateY(0) scale(1);
+  }
+  50%{
+    transform:translateY(-10px) scale(1.05);
+  }
+}
+@keyframes dropPlusBounceActive{
+  0%,100%{
+    transform:translateY(0) scale(1);
+  }
+  50%{
+    transform:translateY(-15px) scale(1.1);
+  }
+}
+@keyframes dropMessagePulse{
+  0%,100%{
+    opacity:1;
+    transform:scale(1);
+  }
+  50%{
+    opacity:0.9;
+    transform:scale(1.02);
+  }
+}
+@keyframes dropMessagePulseActive{
+  0%,100%{
+    opacity:1;
+    transform:scale(1);
+  }
+  50%{
+    opacity:1;
+    transform:scale(1.05);
+  }
+}

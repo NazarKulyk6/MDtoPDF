@@ -4,6 +4,8 @@ const editor = $("editor");
 const preview = $("preview");
 const fileInput = $("fileInput");
 const fileNameInput = $("fileNameInput");
+const editorPane = $("editorPane");
+const dropOverlay = $("dropOverlay");
 
 const DEFAULT_MD = `# Markdown → PDF (local)
 
@@ -228,18 +230,80 @@ $("btnLoadMd").addEventListener("click", () => fileInput.click());
 $("btnSaveMd").addEventListener("click", () => downloadTextFile(getFileName("md"), editor.value, "text/markdown;charset=utf-8"));
 $("btnDownloadPdf").addEventListener("click", exportPdf);
 
+// Shared function to handle file loading
+async function handleFileLoad(file) {
+  if (!file) return;
+  
+  // Check if it's a text/markdown file
+  const isTextFile = file.type.startsWith("text/") || 
+                     /\.(md|markdown|txt)$/i.test(file.name);
+  
+  if (!isTextFile) {
+    alert("Please drop a .md, .markdown, or .txt file");
+    return;
+  }
+  
+  try {
+    const text = await file.text();
+    editor.value = text;
+    
+    // Auto-fill filename from loaded file (without extension)
+    const loadedName = file.name.replace(/\.(md|markdown|txt)$/i, "");
+    if (loadedName && !fileNameInput.value.trim()) {
+      fileNameInput.value = loadedName;
+    }
+    
+    scheduleRender();
+  } catch (error) {
+    alert("Error reading file: " + error.message);
+  }
+}
+
 fileInput.addEventListener("change", async () => {
   const f = fileInput.files?.[0];
   if (!f) return;
-  const text = await f.text();
-  editor.value = text;
-  // Auto-fill filename from loaded file (without extension)
-  const loadedName = f.name.replace(/\.(md|markdown|txt)$/i, "");
-  if (loadedName && !fileNameInput.value.trim()) {
-    fileNameInput.value = loadedName;
-  }
-  scheduleRender();
+  await handleFileLoad(f);
   fileInput.value = "";
+});
+
+// Drag & drop handlers - show overlay when dragging over document
+let dragCounter = 0;
+
+document.addEventListener("dragenter", (e) => {
+  e.preventDefault();
+  dragCounter++;
+  if (dragCounter === 1) {
+    dropOverlay.classList.add("active");
+    document.body.classList.add("drop-active");
+  }
+});
+
+document.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  dropOverlay.classList.add("dragOver");
+});
+
+document.addEventListener("dragleave", (e) => {
+  e.preventDefault();
+  dragCounter--;
+  if (dragCounter === 0) {
+    dropOverlay.classList.remove("active", "dragOver");
+    document.body.classList.remove("drop-active");
+  }
+});
+
+document.addEventListener("drop", async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  dragCounter = 0;
+  dropOverlay.classList.remove("active", "dragOver");
+  document.body.classList.remove("drop-active");
+  
+  const files = e.dataTransfer.files;
+  if (files.length > 0) {
+    await handleFileLoad(files[0]);
+  }
 });
 
 // Keyboard shortcuts

@@ -23,10 +23,10 @@
     </header>
 
     <main class="grid">
-      <section class="pane">
+      <section class="pane" id="editorPane">
         <div class="paneHeader">
           <div class="paneTitle">Markdown</div>
-          <div class="paneHint">Ctrl+S: save • Ctrl+P: PDF</div>
+          <div class="paneHint">Ctrl+S: save • Ctrl+P: PDF • Drag & drop .md file</div>
         </div>
         <textarea id="editor" spellcheck="false"></textarea>
       </section>
@@ -41,6 +41,14 @@
     </main>
 
     <input id="fileInput" type="file" accept=".md,text/markdown,text/plain" hidden />
+    
+    <div id="dropOverlay" class="dropOverlay">
+      <div class="dropContent">
+            <div class="dropPlus"></div>
+        <div class="dropMessage">DROP</div>
+        <div class="dropHint">Release to load .md file</div>
+      </div>
+    </div>
 
     <!-- Markdown rendering (stable) -->
     <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
