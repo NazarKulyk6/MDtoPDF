@@ -38,12 +38,46 @@ class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
     
+    def do_GET(self):
+        """Handle GET requests for API"""
+        if self.path == '/api/health' or self.path == '/api/health/' or self.path == '/api/alive' or self.path == '/api/alive/':
+            self.handle_api_health()
+        else:
+            # Let parent handle static files
+            super().do_GET()
+    
     def do_POST(self):
         """Handle POST requests for API"""
         if self.path == '/api/convert' or self.path == '/api/convert/':
             self.handle_api_convert()
         else:
             self.send_error(404, "Not Found")
+    
+    def handle_api_health(self):
+        """Handle health check endpoint"""
+        health_status = {
+            "status": "alive",
+            "service": "Markdown to PDF Converter",
+            "api_version": "1.0",
+            "endpoints": {
+                "convert": "/api/convert",
+                "health": "/api/health"
+            }
+        }
+        
+        if API_AVAILABLE:
+            health_status["api_available"] = True
+            health_status["message"] = "API is ready to convert Markdown to PDF"
+        else:
+            health_status["api_available"] = False
+            health_status["message"] = "API dependencies not installed. Run: pip install -r requirements.txt"
+        
+        response = json.dumps(health_status, indent=2)
+        
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json')
+        self.end_headers()
+        self.wfile.write(response.encode('utf-8'))
     
     def handle_api_convert(self):
         """Handle Markdown to PDF conversion API"""
@@ -141,6 +175,7 @@ def start_server(port: int):
     with ThreadingTCPServer(("", port), MyHTTPRequestHandler) as httpd:
         print(f"🌐 Local server started at http://localhost:{port}/")
         print(f"📄 Open in your browser: http://localhost:{port}/")
+        print(f"💚 Health check: http://localhost:{port}/api/health")
         print(f"\n⏸️  Press Ctrl+C to stop the server\n")
         try:
             httpd.serve_forever()

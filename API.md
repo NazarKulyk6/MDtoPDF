@@ -1,5 +1,40 @@
 # API Documentation
 
+## Health Check Endpoint
+
+### Endpoint
+```
+GET /api/health
+GET /api/alive
+```
+
+### Description
+Check if the API is alive and ready to process requests.
+
+### Example
+
+```bash
+curl http://localhost:8000/api/health
+```
+
+### Response
+
+```json
+{
+  "status": "alive",
+  "service": "Markdown to PDF Converter",
+  "api_version": "1.0",
+  "api_available": true,
+  "message": "API is ready to convert Markdown to PDF",
+  "endpoints": {
+    "convert": "/api/convert",
+    "health": "/api/health"
+  }
+}
+```
+
+---
+
 ## Markdown to PDF Conversion API
 
 ### Endpoint
