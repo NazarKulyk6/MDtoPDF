@@ -24,13 +24,6 @@ python3 local_server.py --port 8000
 
 2. Open in your browser: `http://localhost:8000/`
 
-### GitHub Pages
-
-1. Go to **Settings → Pages** in your repository
-2. Source: `Deploy from a branch`
-3. Branch: `main`, folder: `/ (root)`
-4. Save — your page will be available at: `https://NazarKulyk6.github.io/MDtoPDF/`
-
 ## Usage
 
 ### Buttons

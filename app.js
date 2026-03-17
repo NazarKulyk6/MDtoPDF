@@ -7,16 +7,16 @@ const fileNameInput = $("fileNameInput");
 const editorPane = $("editorPane");
 const dropOverlay = $("dropOverlay");
 
-const DEFAULT_MD = `# Markdown → PDF (local)
+const DEFAULT_MD = `# Markdown → PDF Converter
 
-This is an **offline** page: it does NOT depend on markdowntopdf.com.
+Convert your Markdown files to PDF instantly in your browser.
 
 ## How to use
 
 - Write Markdown on the left — the preview on the right updates in real time.
 - **Open .md** — load a file.
 - **Save .md** — save the current text.
-- **Save as PDF** — generate a PDF locally.
+- **Save as PDF** — generate and download a PDF.
 
 > Tip: if the PDF is too large, reduce big images/tables.
 
@@ -35,7 +35,7 @@ function escapeHtml(s) {
 }
 
 /**
- * Minimal Markdown -> HTML (offline, no libraries).
+ * Minimal Markdown -> HTML renderer (fallback when libraries aren't loaded).
  * Supports: headings #/##/###, **bold**, `inline code`, ```code blocks```,
  * lists -, blockquotes >, horizontal rule ---, links [t](u), paragraphs.
  */
