@@ -19,7 +19,7 @@ An offline web app to convert Markdown to PDF. Runs locally and does not depend 
 
 1. Start the local server:
 ```bash
-python3 local_server.py --port 8000
+python3 local.py --port 8000
 ```
 
 2. Open in your browser: `http://localhost:8000/`
@@ -49,12 +49,39 @@ python3 local_server.py --port 8000
 - html2pdf.js for PDF generation
 - DOMPurify for sanitization
 
-## Roadmap
+## API
 
-### Planned Features
+### REST API Endpoint
 
-- 🔄 **API for file upload/download** — REST API endpoints for:
-  - Uploading Markdown files via POST request
-  - Downloading generated PDFs via GET request
-  - File conversion via API calls
-  - Integration with other services and automation tools
+**POST** `/api/convert` - Convert Markdown to PDF
+
+The API accepts Markdown content and returns a PDF file. It supports CORS and can be called from any origin.
+
+#### Request Formats
+
+1. **JSON**: Send `{"markdown": "...", "filename": "..."}`
+2. **File Upload**: Upload a `.md` file via multipart/form-data
+3. **Plain Text**: Send Markdown as text/plain
+
+#### Example
+
+```bash
+curl -X POST http://localhost:8000/api/convert \
+  -H "Content-Type: application/json" \
+  -d '{"markdown": "# Hello\n\nWorld", "filename": "test"}' \
+  --output output.pdf
+```
+
+See [API.md](API.md) for complete API documentation.
+
+### Installation for API
+
+To use the API features, install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+The API requires:
+- `markdown` - Markdown parsing
+- `weasyprint` - PDF generation

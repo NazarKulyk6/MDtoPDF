@@ -1,8 +1,5 @@
-# No external dependencies required
-# This project uses only Python standard library modules:
-# - http.server
-# - socketserver
-# - pathlib
-# - argparse
+# Python dependencies for API functionality
+markdown>=3.4.0
+weasyprint>=59.0
 
-# Python 3.6+ is required
+# Python 3.8+ is required for API features
