@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - api
   workflow_dispatch:
 
 permissions:
@@ -18,9 +17,12 @@ concurrency:
 
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout api branch
         uses: actions/checkout@v4
         with:
           ref: api
