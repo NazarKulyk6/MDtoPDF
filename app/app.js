@@ -21,7 +21,7 @@ Convert your Markdown files to PDF instantly in your browser.
 > Tip: if the PDF is too large, reduce big images/tables.
 
 \`\`\`bash
-python3 local_server.py --port 8000
+python3 main.py --port 8000
 \`\`\`
 `;
 

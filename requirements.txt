@@ -1,0 +1,8 @@
+# No external dependencies required
+# This project uses only Python standard library modules:
+# - http.server
+# - socketserver
+# - pathlib
+# - argparse
+
+# Python 3.6+ is required

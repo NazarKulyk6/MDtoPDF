@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """
-Local HTTP server for a standalone (offline) Markdown -> PDF page.
+Local HTTP server for Markdown -> PDF converter.
 
-Why this exists:
-- The saved www.markdowntopdf.com page depends on their backend/auth/modules and often breaks locally.
-- This server serves the local `index.html` and static files from the current folder.
+This server serves the local `index.html` and static files from the current folder.
+Perfect for local development and testing.
 """
 
 import http.server
@@ -30,7 +29,16 @@ class MyHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
 def start_server(port: int):
     """Start the local HTTP server"""
-    os.chdir(Path(__file__).parent)
+    base_dir = Path(__file__).parent
+    app_dir = base_dir / "app"
+    
+    # Change to app directory to serve files from there
+    if app_dir.exists():
+        os.chdir(app_dir)
+        print(f"📁 Serving files from: {app_dir}")
+    else:
+        os.chdir(base_dir)
+        print(f"⚠️  App directory not found, serving from: {base_dir}")
 
     # ThreadingTCPServer so the browser/resources don't block each other
     class ThreadingTCPServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
@@ -38,7 +46,7 @@ def start_server(port: int):
 
     with ThreadingTCPServer(("", port), MyHTTPRequestHandler) as httpd:
         print(f"🌐 Local server started at http://localhost:{port}/")
-        print(f"📄 Open in your browser: http://localhost:{port}/ (index.html)")
+        print(f"📄 Open in your browser: http://localhost:{port}/")
         print(f"\n⏸️  Press Ctrl+C to stop the server\n")
         try:
             httpd.serve_forever()
@@ -47,7 +55,7 @@ def start_server(port: int):
             sys.exit(0)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Local offline Markdown -> PDF server")
+    parser = argparse.ArgumentParser(description="Local Markdown -> PDF server")
     parser.add_argument("--port", type=int, default=DEFAULT_PORT)
     args = parser.parse_args()
     start_server(args.port)
