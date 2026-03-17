@@ -3,6 +3,7 @@ const $ = (id) => document.getElementById(id);
 const editor = $("editor");
 const preview = $("preview");
 const fileInput = $("fileInput");
+const fileNameInput = $("fileNameInput");
 
 const DEFAULT_MD = `# Markdown → PDF (local)
 
@@ -171,6 +172,20 @@ function nowStamp() {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}_${pad(d.getHours())}${pad(d.getMinutes())}`;
 }
 
+function getFileName(extension = "") {
+  const customName = fileNameInput.value.trim();
+  if (customName) {
+    // Remove extension if user added it, we'll add the correct one
+    const nameWithoutExt = customName.replace(/\.(md|pdf)$/i, "");
+    return extension ? `${nameWithoutExt}.${extension}` : nameWithoutExt;
+  }
+  // Default fallback
+  if (extension === "pdf") {
+    return `markdown_${nowStamp()}.pdf`;
+  }
+  return `notes_${nowStamp()}.md`;
+}
+
 async function exportPdf() {
   // Пряме скачування PDF файлом (як Save .md) через html2pdf.js
   if (typeof window.html2pdf !== "function") {
@@ -187,7 +202,7 @@ async function exportPdf() {
   wrapper.style.color = "#111827";
   wrapper.innerHTML = renderMarkdown(editor.value);
 
-  const filename = `markdown_${nowStamp()}.pdf`;
+  const filename = getFileName("pdf");
 
   const opts = {
     margin: [12, 12, 12, 12],
@@ -210,7 +225,7 @@ async function exportPdf() {
 editor.addEventListener("input", scheduleRender);
 
 $("btnLoadMd").addEventListener("click", () => fileInput.click());
-$("btnSaveMd").addEventListener("click", () => downloadTextFile(`notes_${nowStamp()}.md`, editor.value, "text/markdown;charset=utf-8"));
+$("btnSaveMd").addEventListener("click", () => downloadTextFile(getFileName("md"), editor.value, "text/markdown;charset=utf-8"));
 $("btnDownloadPdf").addEventListener("click", exportPdf);
 
 fileInput.addEventListener("change", async () => {
@@ -218,6 +233,11 @@ fileInput.addEventListener("change", async () => {
   if (!f) return;
   const text = await f.text();
   editor.value = text;
+  // Auto-fill filename from loaded file (without extension)
+  const loadedName = f.name.replace(/\.(md|markdown|txt)$/i, "");
+  if (loadedName && !fileNameInput.value.trim()) {
+    fileNameInput.value = loadedName;
+  }
   scheduleRender();
   fileInput.value = "";
 });
@@ -230,7 +250,7 @@ document.addEventListener("keydown", (e) => {
 
   if (e.key.toLowerCase() === "s") {
     e.preventDefault();
-    downloadTextFile(`notes_${nowStamp()}.md`, editor.value, "text/markdown;charset=utf-8");
+    downloadTextFile(getFileName("md"), editor.value, "text/markdown;charset=utf-8");
   }
   if (e.key.toLowerCase() === "p") {
     e.preventDefault();
