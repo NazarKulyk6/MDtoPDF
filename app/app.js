@@ -209,10 +209,10 @@ async function exportPdf() {
   const opts = {
     margin: [12, 12, 12, 12],
     filename,
-    image: { type: "jpeg", quality: 0.95 },
-    html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+    image: { type: "png" },
+    html2canvas: { scale: 3, useCORS: true, backgroundColor: "#ffffff", letterRendering: true },
     jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    pagebreak: { mode: ["css", "legacy"] },
+    pagebreak: { mode: ["avoid-all", "css", "legacy"] },
   };
 
   document.body.appendChild(wrapper);

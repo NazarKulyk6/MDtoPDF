@@ -199,6 +199,24 @@ body{
 .pdf-export{
   color:#111827 !important;
   background:#ffffff !important;
+  font-size:15px;
+  line-height:1.7;
+}
+/* Prevent page breaks inside elements */
+.pdf-export p,
+.pdf-export li,
+.pdf-export blockquote,
+.pdf-export pre,
+.pdf-export table,
+.pdf-export tr{
+  page-break-inside:avoid;
+  break-inside:avoid;
+}
+.pdf-export h1,
+.pdf-export h2,
+.pdf-export h3{
+  page-break-after:avoid;
+  break-after:avoid;
 }
 .pdf-export p,
 .pdf-export li,
