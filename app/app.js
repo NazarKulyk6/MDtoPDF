@@ -197,11 +197,19 @@ async function exportPdf() {
 
   const wrapper = document.createElement("div");
   wrapper.className = "markdown-body pdf-export";
-  wrapper.style.padding = "24px";
-  wrapper.style.maxWidth = "900px";
-  wrapper.style.margin = "0 auto";
-  wrapper.style.background = "#ffffff";
-  wrapper.style.color = "#111827";
+  wrapper.style.cssText = `
+    padding: 32px 40px;
+    max-width: 860px;
+    margin: 0 auto;
+    background: #ffffff;
+    color: #0f172a;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 450;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  `;
   wrapper.innerHTML = renderMarkdown(editor.value);
 
   const filename = getFileName("pdf");

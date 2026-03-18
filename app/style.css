@@ -195,13 +195,84 @@ body{
 }
 .markdown-body th{background:rgba(148,163,184,.10)}
 
-/* PDF: use a white background during export */
+/* PDF: white background, typography matching preview weight */
 .pdf-export{
-  color:#111827 !important;
+  color:#0f172a !important;
   background:#ffffff !important;
   font-size:15px;
-  line-height:1.7;
+  font-weight:450;
+  line-height:1.75;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
 }
+.pdf-export p{
+  color:#0f172a !important;
+  font-weight:450;
+  margin:10px 0;
+}
+.pdf-export li{
+  color:#0f172a !important;
+  font-weight:450;
+}
+.pdf-export strong{
+  font-weight:700 !important;
+  color:#0f172a !important;
+}
+.pdf-export h1{
+  color:#0f172a !important;
+  font-size:28px;
+  font-weight:800 !important;
+  letter-spacing:-.3px;
+}
+.pdf-export h2{
+  color:#0f172a !important;
+  font-size:22px;
+  font-weight:700 !important;
+  border-bottom:2px solid #e2e8f0;
+  padding-bottom:6px;
+}
+.pdf-export h3{
+  color:#334155 !important;
+  font-size:18px;
+  font-weight:700 !important;
+}
+.pdf-export a{color:#2563eb !important}
+.pdf-export blockquote{
+  color:#334155 !important;
+  background:#f0fdf4 !important;
+  border-left:4px solid #22c55e !important;
+  border-radius:6px;
+  padding:8px 14px;
+  margin:12px 0;
+}
+.pdf-export code{
+  color:#0f172a !important;
+  background:#f1f5f9 !important;
+  font-weight:500;
+  font-size:0.88em;
+  padding:2px 6px;
+  border-radius:4px;
+}
+.pdf-export pre{
+  background:#0f172a !important;
+  color:#e5e7eb !important;
+  border-radius:8px;
+  padding:14px 16px;
+  font-size:13px;
+  line-height:1.6;
+}
+.pdf-export pre code{
+  color:#e5e7eb !important;
+  background:transparent !important;
+  font-weight:400;
+}
+.pdf-export table{border-color:#e2e8f0 !important; border-radius:8px;}
+.pdf-export th{
+  background:#f8fafc !important;
+  color:#0f172a !important;
+  font-weight:700 !important;
+}
+.pdf-export td{color:#0f172a !important; font-weight:450;}
 /* Prevent page breaks inside elements */
 .pdf-export p,
 .pdf-export li,
