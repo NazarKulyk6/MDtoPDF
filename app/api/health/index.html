@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>API Health</title>
+    <style>
+      :root { color-scheme: dark; }
+      body{
+        margin:0;
+        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+        background:#0b1020;
+        color:#e5e7eb;
+        padding:24px;
+      }
+      .card{
+        max-width:900px;
+        margin:0 auto;
+        border:1px solid rgba(148,163,184,.18);
+        border-radius:14px;
+        background:rgba(15,23,42,.70);
+        padding:18px 18px;
+        box-shadow:0 20px 60px rgba(0,0,0,.35);
+      }
+      h1{margin:0 0 10px; font-size:22px}
+      p{margin:8px 0; color:#cbd5e1; line-height:1.5}
+      code{
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        background:rgba(148,163,184,.12);
+        padding:2px 6px;
+        border-radius:8px;
+        color:#e5e7eb;
+      }
+      .ok{color:#22c55e; font-weight:800}
+      a{color:#60a5fa}
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1><span class="ok">ALIVE</span> — GitHub Pages is serving static files</h1>
+      <p>
+        You are viewing a <strong>static</strong> health page. GitHub Pages cannot run Python, so the
+        real API endpoints (like <code>/api/convert</code>) work only when you run the server locally.
+      </p>
+      <p>
+        Local health check:
+        <code>http://localhost:8000/api/health</code>
+      </p>
+      <p>
+        Start server locally:
+        <code>python3 main.py</code>
+      </p>
+      <p>
+        Docs: <a href="../../../API.md">API.md</a>
+      </p>
+    </div>
+  </body>
+</html>
+

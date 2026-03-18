@@ -11,6 +11,13 @@ GET /api/alive
 ### Description
 Check if the API is alive and ready to process requests.
 
+### Notes (GitHub Pages vs Local)
+
+- GitHub Pages is **static hosting**, it cannot run the Python API.
+- So `https://NazarKulyk6.github.io/MDtoPDF/api/health` is a **static page** (not the live API).
+- The **real** API health endpoint is available when running locally:
+  - `http://localhost:8000/api/health`
+
 ### Example
 
 ```bash
